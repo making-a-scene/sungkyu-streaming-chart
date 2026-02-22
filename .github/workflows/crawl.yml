@@ -2,7 +2,7 @@ name: Crawl Charts
 
 on:
   schedule:
-    - cron: '0 * * * *'  # 매시 정각
+    - cron: '7 * * * *'  # 매시 7분
   workflow_dispatch:  # 수동 실행
 
 permissions:
