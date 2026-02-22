@@ -1,6 +1,8 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+KST = timezone(timedelta(hours=9))
 
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.expanduser('/Users/kimseungju/sungkyu-streaming/public/charts'))
 
@@ -52,12 +54,12 @@ def export_to_json(results, output_dir=None):
     os.makedirs(output_dir, exist_ok=True)
 
     data = {
-        'updated_at': datetime.now().strftime('%Y-%m-%d %H:%M'),
+        'updated_at': datetime.now(KST).strftime('%Y-%m-%d %H:%M'),
         'charts': results,
     }
 
     # 타임스탬프 파일
-    today = datetime.now().strftime('%Y%m%d_%H')
+    today = datetime.now(KST).strftime('%Y%m%d_%H')
     timestamped = os.path.join(output_dir, f'chart_{today}.json')
     with open(timestamped, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
@@ -74,7 +76,7 @@ def export_to_json(results, output_dir=None):
 
 if __name__ == "__main__":
     print("=" * 50)
-    print(f" 스트리밍 차트 크롤링 ({datetime.now().strftime('%Y-%m-%d %H:%M')})")
+    print(f" 스트리밍 차트 크롤링 ({datetime.now(KST).strftime('%Y-%m-%d %H:%M')})")
     print("=" * 50)
 
     results = crawl_all()
