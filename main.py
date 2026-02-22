@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime
 
-DOWNLOAD_DIR = os.path.expanduser('~/Downloads')
+OUTPUT_DIR = os.environ.get('OUTPUT_DIR', os.path.expanduser('/Users/kimseungju/sungkyu-streaming/public/charts'))
 
 import melon_all
 import melon_30
@@ -45,21 +45,31 @@ def crawl_all(artist='김성규'):
     return results
 
 
-def export_to_json(results, filename=None):
-    if filename is None:
-        today = datetime.now().strftime('%Y%m%d_%H')
-        filename = os.path.join(DOWNLOAD_DIR, f'chart_{today}.json')
+def export_to_json(results, output_dir=None):
+    if output_dir is None:
+        output_dir = OUTPUT_DIR
+
+    os.makedirs(output_dir, exist_ok=True)
 
     data = {
         'updated_at': datetime.now().strftime('%Y-%m-%d %H:%M'),
         'charts': results,
     }
 
-    with open(filename, 'w', encoding='utf-8') as f:
+    # 타임스탬프 파일
+    today = datetime.now().strftime('%Y%m%d_%H')
+    timestamped = os.path.join(output_dir, f'chart_{today}.json')
+    with open(timestamped, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"\nJSON 파일 저장 완료: {timestamped}")
 
-    print(f"\nJSON 파일 저장 완료: {filename}")
-    return filename
+    # latest.json (항상 최신 데이터)
+    latest = os.path.join(output_dir, 'latest.json')
+    with open(latest, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"JSON 파일 저장 완료: {latest}")
+
+    return timestamped
 
 
 if __name__ == "__main__":
