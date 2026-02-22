@@ -39,7 +39,7 @@ def crawl_all(artist='김성규'):
             print(f"  -> {chart_name} 크롤링 실패: {e}")
             results.append({
                 'chart_name': chart_name,
-                'all_data': [],
+                # 'all_data': [],
                 'artist_ranks': [],
             })
     return results

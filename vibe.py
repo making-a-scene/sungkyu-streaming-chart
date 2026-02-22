@@ -38,7 +38,7 @@ def get_artist_rank(artist='김성규'):
             results.append(item)
     return {
         'chart_name': '바이브',
-        'all_data': chart_data,
+        # 'all_data': chart_data,
         'artist_ranks': results,
     }
 

@@ -43,7 +43,7 @@ def get_artist_rank(artist='김성규'):
             results.append(item)
     return {
         'chart_name': '멜론 HOT 100(30일)',
-        'all_data': chart_data,
+        # 'all_data': chart_data,
         'artist_ranks': results,
     }
 
