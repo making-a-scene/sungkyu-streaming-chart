@@ -35,9 +35,23 @@ def get_melon_chart():
         print("페이지를 불러오지 못했습니다.")
         return []
 
-# 데이터 가져오기 및 출력
-if __name__ == "__main__":
+def get_artist_rank(artist='김성규'):
     chart_data = get_melon_chart()
+    results = []
     for item in chart_data:
-        if item['artist'] == '김성규':
-            print(f"멜론 HOT 100(30일) {item['rank']}위")
+        if item['artist'] == artist:
+            results.append(item)
+    return {
+        'chart_name': '멜론 HOT 100(30일)',
+        'all_data': chart_data,
+        'artist_ranks': results,
+    }
+
+
+if __name__ == "__main__":
+    result = get_artist_rank()
+    if result['artist_ranks']:
+        for item in result['artist_ranks']:
+            print(f"멜론 HOT 100(30일) {item['rank']}위 - {item['title']}")
+    else:
+        print("멜론 HOT 100(30일) -")
